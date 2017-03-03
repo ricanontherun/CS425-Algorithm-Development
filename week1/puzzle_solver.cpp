@@ -50,7 +50,8 @@ void SearchUp(const std::string & word, struct position position)
 
   if ( context.find(word) != std::string::npos ) {
     std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
-    std::cout << "going to (" << position.x << "," << position.y - (word.length() - 1) << ")\n"; }
+    std::cout << "going to (" << position.x << "," << position.y - (word.length() - 1) << ")\n";
+  }
 }
 
 void SearchRight(const std::string & word, struct position position)
@@ -67,7 +68,43 @@ void SearchRight(const std::string & word, struct position position)
 
   if ( context.find(word) != std::string::npos ) {
     std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
-    std::cout << "going to (" << position.x + (word.length() - 1) << "," << position.y << ")\n"; }
+    std::cout << "going to (" << position.x + (word.length() - 1) << "," << position.y << ")\n";
+  }
+}
+
+void SearchDown(const std::string & word, struct position position)
+{
+  // Out of bounds check
+  if ( position.y >= BOTTOM_BOUNDARY ) {
+    return;
+  }
+
+  std::string context = "";
+  for ( int y = position.y; y <= BOTTOM_BOUNDARY; ++y ) {
+    context += puzzle[y][position.x];
+  }
+
+  if ( context.find(word) != std::string::npos ) {
+    std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
+    std::cout << "going to (" << position.x << "," << position.y + (word.length() - 1) << ")\n";
+  }
+}
+
+void SearchLeft(const std::string & word, struct position position)
+{
+  if ( position.x <= LEFT_BOUNDARY ) {
+    return;
+  }
+
+  std::string context = "";
+  for ( int x = position.x; x >= LEFT_BOUNDARY; --x ) {
+    context += puzzle[position.y][x];
+  }
+
+  if ( context.find(word) != std::string::npos ) {
+    std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
+    std::cout << "going to (" << position.x - (word.length() - 1) << "," << position.y << ")\n";
+  }
 }
 
 /**
@@ -86,14 +123,14 @@ void SearchForWords()
     char first_character = word.at(0);
     std::vector<struct position> & positions = character_positions.at(first_character);
 
-    // This kinda sucks though. Although each direction isn't always searched, it seems inefficient.
+    // We have to explicityly search each direction for a match.
+    // This kinda sucks, and could probably be more efficient.
     for ( const auto & position : positions ) {
       SearchUp(word, position);
-
       SearchRight(word, position);
+      SearchDown(word, position);
+      SearchLeft(word, position);
     }
-
-    break;
   }
 }
 
