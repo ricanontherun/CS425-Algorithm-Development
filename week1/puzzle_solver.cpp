@@ -11,13 +11,12 @@
 #define BOTTOM_BOUNDARY PUZZLE_ROWS - 1
 #define RIGHT_BOUNDARY  PUZZLE_COLS - 1
 
-
-struct character_position
+struct position
 {
   int x;
   int y;
 
-  character_position(int x, int y) : x(x), y(y) {}
+  position(int x, int y) : x(x), y(y) {}
 };
 
 char puzzle[PUZZLE_ROWS][PUZZLE_COLS] = {
@@ -34,19 +33,10 @@ std::string dictionary[] {
   "that"
 };
 
-std::map<char, std::vector<struct character_position>> character_positions;
+// Ordered map of individual characters in the map and their various positions.
+std::map<char, std::vector<struct position>> character_positions;
 
-void GatherMeta()
-{
-  for ( int row = 0; row < PUZZLE_ROWS; ++row ) {
-    for ( int col = 0; col < PUZZLE_COLS; ++col ) {
-      char character = puzzle[row][col];
-      character_positions[character].emplace_back(col, row);
-    }
-  }
-}
-
-void SearchUp(const std::string & word, struct character_position position)
+void SearchUp(const std::string & word, struct position position)
 {
   // If we're at the top of the matrix, we cant look up.
   if ( position.y <= TOP_BOUNDARY ) {
@@ -63,7 +53,7 @@ void SearchUp(const std::string & word, struct character_position position)
     std::cout << "going to (" << position.x << "," << position.y - (word.length() - 1) << ")\n"; }
 }
 
-void SearchRight(const std::string & word, struct character_position position)
+void SearchRight(const std::string & word, struct position position)
 {
   // Out of bounds check
   if ( position.x >= RIGHT_BOUNDARY ) {
@@ -80,6 +70,10 @@ void SearchRight(const std::string & word, struct character_position position)
     std::cout << "going to (" << position.x + (word.length() - 1) << "," << position.y << ")\n"; }
 }
 
+/**
+ * Search the puzzle for all words in the dictionary.
+ *
+ */
 void SearchForWords()
 {
   for ( const auto & word : dictionary ) {
@@ -90,7 +84,7 @@ void SearchForWords()
     // Because we gathered meta data on each characters positions, we know the
     // possible starting positions for this particular word based on it's first char.
     char first_character = word.at(0);
-    std::vector<struct character_position> & positions = character_positions.at(first_character);
+    std::vector<struct position> & positions = character_positions.at(first_character);
 
     // This kinda sucks though. Although each direction isn't always searched, it seems inefficient.
     for ( const auto & position : positions ) {
@@ -103,9 +97,26 @@ void SearchForWords()
   }
 }
 
+/**
+ * This function gathers the positions of each character
+ * in the puzzle matrix. This allows us to know the starting
+ * positions of potential matches by using the first character.
+ *
+ */
+void GatherMeta()
+{
+  for ( int row = 0; row < PUZZLE_ROWS; ++row ) {
+    for ( int col = 0; col < PUZZLE_COLS; ++col ) {
+      character_positions[puzzle[row][col]].emplace_back(col, row);
+    }
+  }
+}
+
 int main()
 {
   GatherMeta();
 
   SearchForWords();
+
+  return 0;
 }
