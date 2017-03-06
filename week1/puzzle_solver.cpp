@@ -1,3 +1,14 @@
+/**
+ * Christian Roman
+ * March 3rd 2017
+ * Week 1 Assignment
+ * Carol Masuck
+ *
+ * The algorithm I chose to use emulates how a human might search for words in a puzzle. The algorithm first maps each
+ * character in the puzzle to their various locations (coordinate pairs). When searching a for a word, it references the
+ * positions the word's first character. It then performs character by character searches along each direction possible
+ * from that starting point.
+ */
 #include <iostream>
 #include <map>
 #include <vector>
@@ -44,11 +55,18 @@ void SearchUp(const std::string & word, struct position position)
   }
 
   std::string context = "";
-  for ( int y = position.y; y >= 0; --y ) {
+  std::size_t word_length = word.length();
+  int word_i = 0;
+
+  for (
+    int y = position.y;
+    y >= TOP_BOUNDARY, word_i < word_length, word[word_i] == puzzle[y][position.x];
+    --y, ++word_i
+  ) {
     context += puzzle[y][position.x];
   }
 
-  if ( context.find(word) != std::string::npos ) {
+  if ( context == word ) {
     std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
     std::cout << "going to (" << position.x << "," << position.y - (word.length() - 1) << ")\n";
   }
@@ -62,11 +80,18 @@ void SearchRight(const std::string & word, struct position position)
   }
 
   std::string context = "";
-  for ( int x = position.x; x <= RIGHT_BOUNDARY; ++x ) {
+  std::size_t word_length = word.length();
+  int word_i = 0;
+
+  for (
+    int x = position.x;
+    x <= RIGHT_BOUNDARY, word_i < word_length, word[word_i] == puzzle[position.y][x];
+    ++x, ++word_i
+  ) {
     context += puzzle[position.y][x];
   }
 
-  if ( context.find(word) != std::string::npos ) {
+  if ( context == word ) {
     std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
     std::cout << "going to (" << position.x + (word.length() - 1) << "," << position.y << ")\n";
   }
@@ -80,11 +105,20 @@ void SearchDown(const std::string & word, struct position position)
   }
 
   std::string context = "";
-  for ( int y = position.y; y <= BOTTOM_BOUNDARY; ++y ) {
+  std::size_t word_length = word.length();
+  int word_i = 0;
+
+  // Search down the puzzle until we either 1) Reach the bottom or 2) Find a character which doesn't exist in the target
+  // word.
+  for (
+    int y = position.y;
+    y <= BOTTOM_BOUNDARY, word_i < word_length, puzzle[y][position.x] == word[word_i];
+    ++y, ++word_i
+  ) {
     context += puzzle[y][position.x];
   }
 
-  if ( context.find(word) != std::string::npos ) {
+  if ( context == word ) {
     std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
     std::cout << "going to (" << position.x << "," << position.y + (word.length() - 1) << ")\n";
   }
@@ -96,14 +130,123 @@ void SearchLeft(const std::string & word, struct position position)
     return;
   }
 
+  // Check if we have enough room to search.
   std::string context = "";
-  for ( int x = position.x; x >= LEFT_BOUNDARY; --x ) {
+  std::size_t word_length = word.length();
+  int word_i = 0;
+
+  for (
+    int x = position.x, y = 0;
+    x >= LEFT_BOUNDARY, word_i < word_length, puzzle[position.y][x] == word[word_i];
+    --x, ++y, ++word_i
+  ) {
     context += puzzle[position.y][x];
+  }
+
+  if ( context == word ) {
+    std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
+    std::cout << "going to (" << position.x - (word.length() - 1) << "," << position.y << ")\n";
+  }
+}
+
+void SearchUpRight(const std::string & word, struct position position)
+{
+  if ( position.x >= RIGHT_BOUNDARY || position.y <= TOP_BOUNDARY ) {
+    return;
+  }
+
+
+  std::string context = "";
+  std::size_t word_length = word.length();
+  int word_i = 0;
+
+  int x, y;
+  for (
+    x = position.x, y = position.y;
+    x <= RIGHT_BOUNDARY, y >= TOP_BOUNDARY, word_i < word_length, word[word_i] == puzzle[y][x];
+    ++x, --y, ++word_i
+  ) {
+    context += puzzle[y][x];
   }
 
   if ( context.find(word) != std::string::npos ) {
     std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
-    std::cout << "going to (" << position.x - (word.length() - 1) << "," << position.y << ")\n";
+    std::cout << "going to (" << x - 1 << "," << y + 1 << ")\n";
+  }
+}
+
+void SearchDownRight(const std::string & word, struct position position)
+{
+  if ( position.x >= RIGHT_BOUNDARY || position.y >= BOTTOM_BOUNDARY ) {
+    return;
+  }
+
+  std::string context = "";
+  std::size_t word_length = word.length();
+  int word_i = 0;
+  int x, y;
+
+  for (
+    x = position.x, y = position.y;
+    x <= RIGHT_BOUNDARY, y <= BOTTOM_BOUNDARY, word_i < word_length, word[word_i] == puzzle[y][x];
+    ++x, ++y, ++word_i
+  ) {
+    context += puzzle[y][x];
+  }
+
+  if ( context == word ) {
+    std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
+    std::cout << "going to (" << x - 1 << "," << y - 1 << ")\n";
+  }
+}
+
+void SearchDownLeft(const std::string & word, struct position position)
+{
+  if ( position.x <= LEFT_BOUNDARY || position.y >= BOTTOM_BOUNDARY ) {
+    return;
+  }
+
+  std::string context = "";
+  std::size_t word_length = word.length();
+  int word_i = 0;
+  int x, y;
+
+  for (
+    x = position.x, y = position.y;
+    x >= LEFT_BOUNDARY, y <= BOTTOM_BOUNDARY, word_i < word_length, word[word_i] == puzzle[y][x];
+    --x, ++y, ++word_i
+  ) {
+    context += puzzle[y][x];
+  }
+
+  if ( context == word ) {
+    std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
+    std::cout << "going to (" << x + 1 << "," << y - 1 << ")\n";
+  }
+}
+
+void SearchUpLeft(const std::string & word, struct position position)
+{
+  if ( position.x <= LEFT_BOUNDARY || position.y <= TOP_BOUNDARY ) {
+    return;
+  }
+
+  std::string context = "";
+  std::size_t word_length = word.length();
+  int word_i = 0;
+  int x, y;
+
+  for (
+    x = position.x, y = position.y;
+    x >= LEFT_BOUNDARY, y >= TOP_BOUNDARY, word_i < word_length;
+    --x, --y, ++word_i
+  ) {
+    context += puzzle[y][x];
+  }
+
+  if ( context == word ) {
+    std::cout << "Found '" << word << "' starting at (" << position.x << "," << position.y << ") ";
+    std::cout << "going to (" << x + 1 << "," << y + 1 << ")\n";
   }
 }
 
@@ -118,18 +261,28 @@ void SearchForWords()
       continue;
     }
 
+    char first_character = word[0];
+
+    if ( character_positions.count(first_character) == 0 ) {
+      return;
+    }
+
     // Because we gathered meta data on each characters positions, we know the
     // possible starting positions for this particular word based on it's first char.
-    char first_character = word.at(0);
-    std::vector<struct position> & positions = character_positions.at(first_character);
+    std::vector<struct position> & positions = character_positions[first_character];
 
-    // We have to explicityly search each direction for a match.
-    // This kinda sucks, and could probably be more efficient.
     for ( const auto & position : positions ) {
+      // Lateral searches
       SearchUp(word, position);
       SearchRight(word, position);
       SearchDown(word, position);
       SearchLeft(word, position);
+
+      // Diagonal searches
+      SearchUpRight(word, position);
+      SearchDownRight(word, position);
+      SearchDownLeft(word, position);
+      SearchUpLeft(word, position);
     }
   }
 }
@@ -137,10 +290,11 @@ void SearchForWords()
 /**
  * This function gathers the positions of each character
  * in the puzzle matrix. This allows us to know the starting
- * positions of potential matches by using the first character.
+ * positions of potential matches by using the first character of
+ * each search word.
  *
  */
-void GatherMeta()
+void GatherCharacterPositions()
 {
   for ( int row = 0; row < PUZZLE_ROWS; ++row ) {
     for ( int col = 0; col < PUZZLE_COLS; ++col ) {
@@ -151,7 +305,7 @@ void GatherMeta()
 
 int main()
 {
-  GatherMeta();
+  GatherCharacterPositions();
 
   SearchForWords();
 
