@@ -8,8 +8,20 @@ class Collection
 {
   public:
     Collection(std::size_t size)
-    : position(0), size(size), storage(new T[size])
-    {}
+    : position(0), size(size)
+    {
+        this->storage = new T[this->size];
+    }
+
+    Collection(const Collection & rhs)
+    : position(rhs.position), size(rhs.size), storage{nullptr}
+    {
+        this->storage = new T[this->size];
+
+        for ( int i = 0; i < this->size; ++i ) {
+            this->storage[i] = rhs.storage[i];
+        }
+    }
 
     ~Collection()
     {
@@ -99,5 +111,5 @@ int main()
   std::cout << thing1.x << "\n";
   std::cout << thing2.x << "\n";
 
-  things.remove(0);
+  Collection<Thing> thing_again(things);
 }
