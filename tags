@@ -6,14 +6,22 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 BOTTOM_BOUNDARY	week1/puzzle_solver.cpp	22;"	d	file:
 Collection	week1/collection.cpp	/^    Collection(const Collection & rhs)$/;"	f	class:Collection
-Collection	week1/collection.cpp	/^    Collection(std::size_t size)$/;"	f	class:Collection
+Collection	week1/collection.cpp	/^    Collection(std::size_t size = 0)$/;"	f	class:Collection
 Collection	week1/collection.cpp	/^class Collection$/;"	c	file:
 GatherCharacterPositions	week1/puzzle_solver.cpp	/^void GatherCharacterPositions()$/;"	f
 HEADER1_INCLUDED	week1/header1.h	2;"	d
 HEADER2_INCLUDED	week1/header2.h	2;"	d
 LEFT_BOUNDARY	week1/puzzle_solver.cpp	21;"	d	file:
+LIST_H	week3/list.h	2;"	d
 LargeObject	week2/2.4.cpp	/^  LargeObject(int x) : x(x) {$/;"	f	struct:LargeObject
 LargeObject	week2/2.4.cpp	/^struct LargeObject$/;"	s	file:
+List	week3/list.h	/^    List( )$/;"	f	class:List
+List	week3/list.h	/^    List( List && rhs )$/;"	f	class:List
+List	week3/list.h	/^    List( const List & rhs )$/;"	f	class:List
+List	week3/list.h	/^class List$/;"	c
+Node	week3/list.h	/^      Node( Object && d, Node * p = nullptr, Node * n = nullptr )$/;"	f	struct:List::Node
+Node	week3/list.h	/^      Node( const Object & d = Object{ }, Node * prev = nullptr, Node * next = nullptr )$/;"	f	struct:List::Node
+Node	week3/list.h	/^    struct Node$/;"	s	class:List
 PUZZLE_COLS	week1/puzzle_solver.cpp	18;"	d	file:
 PUZZLE_ROWS	week1/puzzle_solver.cpp	17;"	d	file:
 RIGHT_BOUNDARY	week1/puzzle_solver.cpp	23;"	d	file:
@@ -34,39 +42,92 @@ Thing	week1/collection.cpp	/^    Thing() : x(0) {}$/;"	f	class:Thing
 Thing	week1/collection.cpp	/^    Thing(int x) : x(x) {}$/;"	f	class:Thing
 Thing	week1/collection.cpp	/^class Thing$/;"	c	file:
 TimeThing	week1/header2.h	/^struct TimeThing$/;"	s
+back	week3/list.h	/^    Object & back( )$/;"	f	class:List
+back	week3/list.h	/^    const Object & back( ) const$/;"	f	class:List
+begin	week3/list.h	/^    const_iterator begin( ) const$/;"	f	class:List
+begin	week3/list.h	/^    iterator begin( )$/;"	f	class:List
 boundsCheck	week1/collection.cpp	/^    void boundsCheck(std::size_t index) const$/;"	f	class:Collection	file:
 character_positions	week1/puzzle_solver.cpp	/^std::map<char, std::vector<struct position>> character_positions;$/;"	v
+clear	week3/list.h	/^    void clear( )$/;"	f	class:List
+const_iterator	week3/list.h	/^        const_iterator( ) : current{ nullptr }$/;"	f	class:List::const_iterator
+const_iterator	week3/list.h	/^        const_iterator( Node *p ) :  current{ p }$/;"	f	class:List::const_iterator
+const_iterator	week3/list.h	/^    class const_iterator$/;"	c	class:List
+current	week3/list.h	/^        Node *current;$/;"	m	class:List::const_iterator
+data	week3/list.h	/^      Object  data;$/;"	m	struct:List::Node
+empty	week3/list.h	/^    bool empty( ) const$/;"	f	class:List
+end	week3/list.h	/^    const_iterator end( ) const$/;"	f	class:List
+end	week3/list.h	/^    iterator end( )$/;"	f	class:List
+erase	week3/list.h	/^    iterator erase( iterator from, iterator to )$/;"	f	class:List
+erase	week3/list.h	/^    iterator erase( iterator itr )$/;"	f	class:List
 find	week1/find_max.cpp	/^const T & find(const std::vector<T> & set, Comparator comparator)$/;"	f
+front	week3/list.h	/^    Object & front( )$/;"	f	class:List
+front	week3/list.h	/^    const Object & front( ) const$/;"	f	class:List
 gcd	week2/2.4.cpp	/^std::int64_t gcd(std::int64_t m, std::int64_t n) {$/;"	f
 getReference	week2/2.4.cpp	/^LargeObject & getReference(std::vector<LargeObject> & arr)$/;"	f
+head	week3/list.h	/^    Node *head;$/;"	m	class:List
 hours	week1/header2.h	/^  int hours;$/;"	m	struct:TimeThing
+init	week3/list.h	/^    void init( )$/;"	f	class:List
 insert	week1/collection.cpp	/^    void insert(T object)$/;"	f	class:Collection
+insert	week3/list.h	/^    iterator insert( iterator itr, Object && x )$/;"	f	class:List
+insert	week3/list.h	/^    iterator insert( iterator itr, const Object & x )$/;"	f	class:List
 isEmpty	week1/collection.cpp	/^    bool isEmpty() const$/;"	f	class:Collection
 isHeader	week1/parse_includes.cpp	/^bool isHeader(const std::string & line, std::string & filepath)$/;"	f
+iterator	week3/list.h	/^      iterator( )$/;"	f	class:List::iterator
+iterator	week3/list.h	/^      iterator( Node *p ) : const_iterator{ p }$/;"	f	class:List::iterator
+iterator	week3/list.h	/^    class iterator : public const_iterator$/;"	c	class:List
 main	week1/collection.cpp	/^int main()$/;"	f
 main	week1/find_max.cpp	/^int main()$/;"	f
 main	week1/parse_includes.cpp	/^int main(int argc, char **argv)$/;"	f
 main	week1/permutations.cpp	/^int main()$/;"	f
 main	week1/puzzle_solver.cpp	/^int main()$/;"	f
 main	week2/2.4.cpp	/^int main()$/;"	f
+main	week3/main.cpp	/^int main()$/;"	f
 minutes	week1/header2.h	/^  int minutes;$/;"	m	struct:TimeThing
+next	week3/list.h	/^      Node   *next;$/;"	m	struct:List::Node
+operator !=	week3/list.h	/^        bool operator!= ( const const_iterator & rhs ) const$/;"	f	class:List::const_iterator
 operator ()	week1/find_max.cpp	/^    bool operator()(const std::string & s1, const std::string & s2)$/;"	f	class:StringGreaterThanComparator
 operator ()	week1/find_max.cpp	/^    bool operator()(const std::string & s1, const std::string & s2)$/;"	f	class:StringLessThanComparator
+operator *	week3/list.h	/^        const Object & operator* ( ) const$/;"	f	class:List::const_iterator
+operator *	week3/list.h	/^      Object & operator* ( )$/;"	f	class:List::iterator
+operator *	week3/list.h	/^      const Object & operator* ( ) const$/;"	f	class:List::iterator
+operator ++	week3/list.h	/^        const_iterator & operator++ ( )$/;"	f	class:List::const_iterator
+operator ++	week3/list.h	/^        const_iterator operator++ ( int )$/;"	f	class:List::const_iterator
+operator ++	week3/list.h	/^      iterator & operator++ ( )$/;"	f	class:List::iterator
+operator ++	week3/list.h	/^      iterator operator++ ( int )$/;"	f	class:List::iterator
+operator --	week3/list.h	/^        const_iterator & operator-- ( )$/;"	f	class:List::const_iterator
+operator --	week3/list.h	/^        const_iterator operator-- ( int )$/;"	f	class:List::const_iterator
+operator --	week3/list.h	/^      iterator & operator-- ( )$/;"	f	class:List::iterator
+operator --	week3/list.h	/^      iterator operator-- ( int )$/;"	f	class:List::iterator
+operator =	week3/list.h	/^    List & operator= ( List && rhs )$/;"	f	class:List
+operator =	week3/list.h	/^    List & operator= ( const List & rhs )$/;"	f	class:List
+operator ==	week3/list.h	/^        bool operator== ( const const_iterator & rhs ) const$/;"	f	class:List::const_iterator
 operator []	week1/collection.cpp	/^    const T & operator[](std::size_t index) const$/;"	f	class:Collection
 parseFile	week1/parse_includes.cpp	/^void parseFile(const std::string & filepath)$/;"	f
 permute	week1/permutations.cpp	/^void permute(char * a, int l, int r)$/;"	f
+pop_back	week3/list.h	/^    void pop_back( )$/;"	f	class:List
+pop_front	week3/list.h	/^    void pop_front( )$/;"	f	class:List
 position	week1/collection.cpp	/^    std::size_t position;$/;"	m	class:Collection	file:
 position	week1/puzzle_solver.cpp	/^  position(int x, int y) : x(x), y(y) {}$/;"	f	struct:position
 position	week1/puzzle_solver.cpp	/^struct position$/;"	s	file:
+prev	week3/list.h	/^      Node   *prev;$/;"	m	struct:List::Node
+push_back	week3/list.h	/^    void push_back( Object && x )$/;"	f	class:List
+push_back	week3/list.h	/^    void push_back( const Object & x )$/;"	f	class:List
+push_front	week3/list.h	/^    void push_front( Object && x )$/;"	f	class:List
+push_front	week3/list.h	/^    void push_front( const Object & x )$/;"	f	class:List
 puzzle	week1/puzzle_solver.cpp	/^char puzzle[PUZZLE_ROWS][PUZZLE_COLS] = {$/;"	v
 remove	week1/collection.cpp	/^    void remove(std::size_t index)$/;"	f	class:Collection
+retrieve	week3/list.h	/^        Object & retrieve( ) const$/;"	f	class:List::const_iterator
 seconds	week1/header2.h	/^  int seconds;$/;"	m	struct:TimeThing
 size	week1/collection.cpp	/^    std::size_t size;$/;"	m	class:Collection	file:
+size	week3/list.h	/^    int size( ) const$/;"	f	class:List
 storage	week1/collection.cpp	/^    T * storage = nullptr;$/;"	m	class:Collection	file:
 swap	week1/permutations.cpp	/^void swap(char *x, char *y)$/;"	f
+tail	week3/list.h	/^    Node *tail;$/;"	m	class:List
+theSize	week3/list.h	/^    int   theSize;$/;"	m	class:List
 validateSize	week1/collection.cpp	/^    void validateSize()$/;"	f	class:Collection	file:
 x	week1/collection.cpp	/^    int x;$/;"	m	class:Thing	file:
 x	week1/puzzle_solver.cpp	/^  int x;$/;"	m	struct:position	file:
 x	week2/2.4.cpp	/^  int x;$/;"	m	struct:LargeObject	file:
 y	week1/puzzle_solver.cpp	/^  int y;$/;"	m	struct:position	file:
 ~Collection	week1/collection.cpp	/^    ~Collection()$/;"	f	class:Collection
+~List	week3/list.h	/^    ~List( )$/;"	f	class:List

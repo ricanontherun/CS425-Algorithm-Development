@@ -2,12 +2,13 @@
 #include <array>
 #include <stdexcept>
 #include <iterator>
+#include <algorithm>
 
 template <class T>
 class Collection
 {
   public:
-    Collection(std::size_t size)
+    Collection(std::size_t size = 0)
     : position(0), size(size)
     {
         this->storage = new T[this->size];
@@ -16,6 +17,8 @@ class Collection
     Collection(const Collection & rhs)
     : position(rhs.position), size(rhs.size), storage{nullptr}
     {
+        std::cout << "Copy\n";
+
         this->storage = new T[this->size];
 
         for ( int i = 0; i < this->size; ++i ) {
@@ -105,11 +108,6 @@ int main()
   things.insert(Thing(100));
   things.insert(Thing(1234));
 
-  const Thing & thing1 = things[0];
-  const Thing & thing2 = things[1];
-
-  std::cout << thing1.x << "\n";
-  std::cout << thing2.x << "\n";
-
-  Collection<Thing> thing_again(things);
+  Collection<Thing> thing_copy;
+  thing_copy = things;
 }
