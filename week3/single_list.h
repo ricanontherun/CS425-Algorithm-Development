@@ -143,12 +143,66 @@ class SingleList
       protected:
             Node * current;
 
+            T & retrieve( ) const
+            {
+              return current->data;
+            }
+
             const_iterator(Node * current)
               : current(current)
             {}
 
             friend class SingleList<T>;
     }; // End SingleList::const_iterator
+
+    class iterator : public const_iterator
+    {
+      public:
+        iterator( )
+        {}
+
+        T & operator*()
+        {
+          return const_iterator::retrieve();
+        }
+
+        const T & operator* ( ) const
+        { return const_iterator::operator*( ); }
+
+        iterator & operator++ ( )
+        {
+          this->current = this->current->next;
+          return *this;
+        }
+
+        iterator operator++ ( int )
+        {
+          iterator old = *this;
+          ++( *this );
+          return old;
+        }
+
+        iterator & operator-- ( )
+        {
+          this->current = this->current->prev;
+          return *this;
+        }
+
+        iterator operator-- ( int )
+        {
+          iterator old = *this;
+          --( *this );
+          return old;
+        }
+
+      protected:
+        // Protected constructor for iterator.
+        // Expects the current position.
+        iterator( Node *p ) : const_iterator{ p }
+        { }
+
+        friend class SingleList<T>;
+    }; // End SingleList::iterator
 
     const_iterator begin() const
     {
@@ -158,6 +212,16 @@ class SingleList
     const_iterator end() const
     {
       return const_iterator(this->tail);
+    }
+
+    iterator begin()
+    {
+      return iterator(this->head->next);
+    }
+
+    iterator end()
+    {
+      return iterator(this->tail);
     }
 
     // Get the list's size.
@@ -260,6 +324,32 @@ class SingleList
       p->next = new Node(t, p->next);
 
       return const_iterator(p->next);
+    }
+
+    iterator swap(iterator it)
+    {
+      if ( *it == this->back() )
+      {
+        return it;
+      }
+
+      // Find the previous node.
+      Node * prev = this->head;
+      for ( ; prev->next != it.current; prev = prev->next ) ;
+
+      Node * curr = it.current;
+      Node * next = curr->next;
+
+      // Change the previous link to point to next.
+      prev->next = next;
+
+      // curr is now the right node, so we need to make sure
+      // we point it to what next WAS pointing.
+      curr->next = next->next;
+
+      next->next = curr;
+
+      return iterator(next);
     }
 }; // End List
 

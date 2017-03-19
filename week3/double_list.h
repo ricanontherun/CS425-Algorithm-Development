@@ -2,6 +2,7 @@
 #define LIST_H
 
 #include <algorithm>
+
 using namespace std;
 
 template <typename Object>
@@ -306,6 +307,31 @@ class List
         itr = erase( itr );
 
       return to;
+    }
+
+    iterator swap(iterator it)
+    {
+      // If this is the last element, we can't swap with the tail node.
+      if ( *it == this->back() ) {
+        return it;
+      }
+
+      Node * curr = it.current;
+      Node * prev = curr->prev;
+      Node * next = curr->next;
+
+      // Change the previous link to point to next.
+      prev->next = next;
+      next->prev = prev;
+
+      // curr is now the right node, so we need to make sure
+      // we point it to what next WAS pointing.
+      curr->next = next->next;
+
+      next->next = curr;
+      curr->prev = next;
+
+      return iterator(next);
     }
 
   private:
