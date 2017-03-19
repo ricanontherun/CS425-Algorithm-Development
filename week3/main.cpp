@@ -1,16 +1,14 @@
 #include <iostream>
 
-#include "vector.h"
+#include "double_list.h"
+#include "single_list.h"
 
 int main()
 {
-    Vector<int> vector;
+  SingleList<int> list;
 
-    vector.push_back(1);
-    vector.push_back(1);
-    vector.push_back(1);
-    vector.push_back(1);
-
-    Vector<int> another_vector;
-    another_vector = vector; // Copy assignment
+  for ( int i = 0; i < 20; ++i ) {
+    list.push_back(i);
+  }
+  return 0;
 }
