@@ -334,6 +334,20 @@ class List
       return iterator(next);
     }
 
+    iterator at(std::size_t position)
+    {
+      if ( this->empty() ) {
+        return this->end();
+      }
+
+      std::size_t i = 0;
+      Node * current = this->head->next;
+
+      for ( ; i != position && current != this->tail; current = current->next, ++i ) ;
+
+      return iterator(current);
+    }
+
   private:
     int   theSize;
     Node *head;
