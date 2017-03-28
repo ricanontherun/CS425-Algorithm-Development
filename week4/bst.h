@@ -68,11 +68,6 @@ class BinarySearchTree
 
 			if ( root == nullptr ) {
 				root = new Node(object);
-				root->successor = this->successor(root);
-
-				if ( root->successor != nullptr ) {
-					std::cout << root->successor->data  << "\n";
-				}
 			} else if ( object < root->data ) {
 				this->insert(object, root->left);
 			} else if ( object > root->data ) {
@@ -118,7 +113,7 @@ class BinarySearchTree
 			}
 		}
 
-		void print(const Node * node) const
+		void print(Node * node) const
 		{
 			if ( node == nullptr ) {
 				return;
@@ -154,24 +149,24 @@ class BinarySearchTree
 			return this->findMin(root->left);
 		}
 
-		Node * successor(Node * node) const
+		Node * getSuccessor(Node * node) const
 		{
 			// If this node has a right subtree, then by definition the next largest value exists somewhere in that tree.
 			// So we find the smallest value in that tree, which is our next largest value.
 			if ( node->right != nullptr ) {
-				return this->findMin(node);
+				return this->findMin(node->right);
 			}
 
-			Node * local_root = this->root;
 			Node * successor = nullptr;
+			Node * __root = this->root;
 
 			// We need to start at the root and search manually.
-			while ( local_root != nullptr ) {
-				if ( node->data < local_root->data ) {
-					successor = local_root;
-					local_root = local_root->left;
-				} else if ( node->data > local_root->data ) {
-					local_root = local_root->right;
+			while ( __root != nullptr ) {
+				if ( node->data < __root->data ) {
+					__root = __root->left;
+					successor = __root;
+				} else if ( node->data > __root->data ) {
+					__root = __root->right;
 				} else {
 					break;
 				}
