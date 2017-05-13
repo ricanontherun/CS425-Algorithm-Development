@@ -2,7 +2,6 @@
  * Christian Roman
  * March 3rd 2017
  * Week 1 Assignment
- * Carol Masuck
  *
  * The algorithm I chose to use emulates how a human might search for words in a puzzle. The algorithm first maps each
  * character in the puzzle to their various locations (coordinate pairs). When searching a for a word, it references the
