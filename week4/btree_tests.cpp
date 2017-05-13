@@ -11,6 +11,9 @@ int main() {
 	tree.insert(3);
 	tree.insert(10);
 
+	tree.print();
+	return 0;
+
 	assert(!tree.empty());
 
 	assert(tree.contains(7));
